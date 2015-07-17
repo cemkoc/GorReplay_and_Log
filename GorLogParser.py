@@ -15,28 +15,42 @@ import sys
 
 if __name__ == '__main__':
 	TOTAL_AUCTION_NUMBER = 0
-	
+	AUCTIONS_WITH_200 = 0
+	TARGETED_AUCTIONS_NUMBER = 0
+	WON_AUCTIONS_NUMBER = 0
+
 	placementID = sys.argv[1]
 	inFile = sys.argv[2]
-	outFile = sys.argv[3]
-
+	outFile = sys.argv[3]		
 	try:
             parseFile = open(str(inFile)), 'r')
 	    outputFile = open(str(outFile), 'w')
 	    TOTAL_AUCTION_NUMBER = int(re.search("\d+", str(parseFile.readLine())).group(0))
 
-	    header1 = "All-Competing-Placement-Ids"
-	    header2 = "Winning-Placement-Id"
-	    index_NOTFOUND = -1
+	    competing = "COMPETING PLACEMENTS"
+	    winning = "WINNING PLACEMENT"
+	    
+  	    TOTAL_AUCTION_NUMBER = eval(parseFile.readline().split(": "))
+	    AUCTIONS_WITH_200 = eval(parseFile.readline().split(": "))
 
 	    for line in parseFile:
-	        competing_start_index = line.find(header1)
-		if competing_start_index != index_NOTFOUND:
+	        if header1 in line:
+		    competing_list = eval(line.split(": ")[1])
+		    if placementID in competing_list:
+		        TARGETED_AUCTIONS_NUMBER += 1
 
+		if header2 in line:
+		    winning_id= eval(line.split(": ")[1]
+		    if placementID == str(winning_id):
+		        WON_AUCTIONS_NUMBER += 1
 
-
-            outputFile.write("Total number of auctions replayed: " + TOTAL_AUCTION_NUMBER)
-    
+            outputFile.write("Total number of auctions replayed: " + TOTAL_AUCTION_NUMBER + "\n")
+	    outputFile.write("\n")
+	    outputFile.write("Auctions with 200 OK Status: " + AUCTIONS_WITH_200 + "\n")
+	    outputFile.write("\n")
+	    outputFile.write("Number of targeted auctions with placement: " + TARGETED_AUCTIONS_NUMBER + "\n")
+	    outputFile.write("\n")
+	    outputFile.write("Number of auctions placement wins: " + WON_AUCTIONS_NUMBER + "\n")
 	except IOError as e:
 		print "I/O Error({0}): {1}".format(e.errno, os.strerror(e.errno))
 	finally:
