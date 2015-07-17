@@ -21,11 +21,11 @@ if __name__ == '__main__':
 
 	total_num_docs = es.count(index="gor", body={"query": {"match_all": {}}})['count']
 	filtered_num = es.count(index="gor", body={"query": {"bool": {"must": { "match": { "Resp_Status": str(status) }}}}})['count']
-	
+
+	output_file.write("\n")	
 	output_file.write("Total number of docs(auctions) in the index is: " + str(total_num_docs))
         output_file.write("\n")
 	output_file.write("Number of docs(auctions) that has 200 and non octet-stream response body is: " + str(filtered_num))
-	output_file.write("\n")
 	output_file.write("\n")
 	output_file.write("Responses...\n")
         for doc_id in ids_list:
@@ -39,28 +39,13 @@ if __name__ == '__main__':
 		    #write_body = str(extracted_output['fields']['Resp_Body'][0])
 
             if 'fields' in extracted_competingIds.keys():
-		#output_file.write(str(extracted_output))  
 		output_file.write("\n")
 		output_file.write("\n")	
-		output_file.write("COMPETING PLACEMENTS---->\n")
-		output_file.write(str(extracted_competingIds['fields']['Resp_Competing-Placements'][0]))
+		output_file.write("COMPETING PLACEMENTS: " + str(extracted_competingIds['fields']['Resp_Competing-Placements'][0]))
 		output_file.write("\n")
-		output_file.write("WINNING PLACEMENT---->\n")
-		output_file.write(str(extracted_winningId['fields']['Resp_Winning-Placement'][0]))
-                output_file.write("\n")
+		output_file.write("WINNING PLACEMENT: " + str(extracted_winningId['fields']['Resp_Winning-Placement'][0]))
 		output_file.write("\n")
 		output_file.write("--------------------------------------------Next Response----------------------------------------------------------")
-                output_file.write("\n")
-		output_file.write("\n")
     
-	    #extracted_source = es.get(index="gor", id=str(doc_id), doc_type="RequestResponse", _source=True)
-	    #output_file.write("\n")
-	    #output_file.write(str(extracted_source))
-	    #output_file.write("\n")
-	    #output_file.write("\n")
-	    #output_file.write("<-----------------------------------------------Next Response------------------------------------------------------------->")
-	    #output_file.write("\n")
-	    #output_file.write("\n")
- 
     print "...Done"
     print "It took ---  %s seconds --- " % (time.clock() - start_time)

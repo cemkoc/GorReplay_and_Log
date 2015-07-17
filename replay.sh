@@ -42,8 +42,16 @@ echo "Running python script to create file"
 echo "Writing logs to ---> replay_logs.txt"
 
 source /tmp/myenv/bin/activate
-chmod +x export.py
-./export.py replay_logs.txt
+chmod +x create_GorAuction_logs.py
+./create_GorAuction_logs.py replay_log.txt
+logdir="logs"
+if [-d "$logdir"]; then
+    mv ./replay_log.txt ./logs/
+else
+    mkdir $logdir
+    mv ./replay_log.txt ./logs/
+fi
+
 deactivate="deactivate"
 $deactivate
 
